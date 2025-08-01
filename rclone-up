@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -e -o pipefail
+
+# From /etc/rclone/rclone.conf
+profile="${1}"
+
+# Note: Will not replicate empty folders
+exec /usr/bin/rclone \
+	sync \
+	"${RCLONE_DATA}/${profile}" \
+	"${profile}:" \
+	--check-first \
+	--config="${RCLONE_CONFIG}/rclone.conf" \
+	--delete-before \
+	--log-file="/var/log/rclone.log" \
+	--progress \
+	--verbose
+

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -e -o pipefail
+
+function log
+{
+	echo -e "$(date +%Y-%m-%d_%H:%M:%S) | $(basename -- "${0}") |" "$@" | tee --append "/var/log/rclone.log"
+}
+
+for direction in down up; do
+	var="RCLONE_PROFILES_${direction^^}"
+	IFS="," read -a profiles -r <<< "${!var}"
+	for profile in "${profiles[@]}"; do
+		log "Invoking: ${profile} [${direction}]"
+		"/usr/local/bin/rclone-${direction}" "${profile}" || true
+	done
+done
+
+exit 0
+

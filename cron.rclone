@@ -1,0 +1,6 @@
+#!/bin/bash
+
+source /etc/profile
+
+exec /usr/bin/rclone
+
