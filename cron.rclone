@@ -2,5 +2,5 @@
 
 source /etc/profile
 
-exec /usr/bin/rclone
+exec /usr/local/bin/rclone-wrapper
 
