@@ -6,6 +6,12 @@ set -e -o pipefail
 if [[ ! -e "${EP_RUN}" ]] ; then
 	log "Configuring $(basename "${0}") for first run ..."
 
+	log "Propagating environment variables ..."
+	cat <<- EOF >> /etc/profile.d/rclone.sh
+		export RCLONE_PROFILES_DOWN="${RCLONE_PROFILES_DOWN}"
+		export RCLONE_PROFILES_UP="${RCLONE_PROFILES_UP}"
+	EOF
+
 	# Volume initialization
 	if [[ ! -f "${RCLONE_CONFIG}/rclone.conf" ]] ; then
 		log "Initializing data volume ..."
