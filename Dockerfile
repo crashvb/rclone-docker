@@ -14,7 +14,7 @@ LABEL \
 	org.opencontainers.image.url="https://github.com/crashvb/rclone-docker"
 
 # Install packages, download files ...
-RUN docker-apt rclone
+RUN docker-apt jq rclone
 
 # Configure: rclone
 ENV \

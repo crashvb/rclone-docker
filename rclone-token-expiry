@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -e -o pipefail
+
+path_config="${RCLONE_CONFIG}/rclone.conf"
+
+grep "^token = " "${path_config}" | \
+	awk -F= '{print $2}' | \
+	jq --raw-output ".expiry"
+
+exit 0
+
