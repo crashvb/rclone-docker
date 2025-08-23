@@ -1,0 +1,29 @@
+#!/bin/bash
+
+set -e -o pipefail
+
+function log
+{
+	echo -e "$(date +%Y-%m-%d_%H:%M:%S) | $(basename -- "${0}") |" "$@"
+}
+
+path_config="${RCLONE_CONFIG}/rclone.conf"
+
+grep --perl-regexp --only-matching "^\[\K[^\]]+" "${path_config}" | \
+while IFS= read -r profile; do
+	set +e
+	output="$(rclone --config "${path_config}" lsd "${profile}:" 2>&1)"
+	exit_code=$?
+	set -e
+
+	[[ $exit_code -eq 0 ]] && continue
+
+	log "Profile: ${profile}"
+	log "$(sed --expression="s/^/\t/" <<< "${output}")"
+	if grep --fixed-strings --quiet "Token has been expired or revoked" <<<"${output}"; then
+		log "rclone --config \"${path_config}\" config reconnect \"${profile}:\""
+	fi
+done
+
+exit 0
+

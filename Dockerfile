@@ -18,8 +18,10 @@ RUN docker-apt rclone
 
 # Configure: rclone
 ENV \
+	CRONTAB_ENVSUBST_RCLONE="\${RCLONE_SCHEDULE} root exec /bin/bash -c \". /etc/profile; /usr/local/bin/rclone-token-refresh >>/var/log/cron.log 2>&1\"" \
 	RCLONE_CONFIG=/etc/rclone \
-	RCLONE_DATA=/var/lib/rclone
+	RCLONE_DATA=/var/lib/rclone \
+	RCLONE_SCHEDULE="*/15 * * * *"
 COPY cron.rclone /etc/cron.daily/rclone
 COPY crontab /etc/crontab
 COPY logrotate.rclone /etc/logrorate.d/rclone

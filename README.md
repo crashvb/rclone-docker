@@ -21,6 +21,7 @@ The embedded entrypoint script is located at `/etc/entrypoint.d/rclone` and perf
  | Variable | Default Value | Description |
  | -------- | ------------- | ----------- |
  | RCLONE\_CONF | | If defined, this value will be written to `<rclone_conf>/rclone.conf`. |
+ | RCLONEL\_SCHEDULE | &ast;/15 &ast; &ast; &ast; &ast; | Schedule section of the rclone (token) crontab entry. |
 
 2. Volume permissions are normalized.
 
@@ -43,6 +44,7 @@ The embedded entrypoint script is located at `/etc/entrypoint.d/rclone` and perf
 │     └─ bin/
 │        ├─ rclone-down
 │        ├─ rclone-up
+│        ├─ rclone-token-refresh
 │        └─ rclone-wrapper
 └─ var/
    ├─ lib/
